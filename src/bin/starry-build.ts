@@ -13,6 +13,4 @@ const baseConfig: BuildConfig = {
   excludes: ['pages', 'components', 'node_modules', 'package.json']
 }
 
-build(baseConfig).then(() => {
-  console.log(`✨ Taa-Dah`)
-})
+build(baseConfig)

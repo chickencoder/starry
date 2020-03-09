@@ -36,21 +36,18 @@
     "@types/args": "^3.0.0",
     "@types/node": "^13.9.0",
     "@types/react-dom": "^16.9.5",
+    "@types/webpack": "^4.41.7",
     "tslint": "^6.0.0",
     "tslint-config-airbnb": "^5.11.2",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@rollup/plugin-commonjs": "^11.0.2",
-    "@rollup/plugin-node-resolve": "^7.1.1",
-    "@rollup/plugin-typescript": "^4.0.0",
-    "@types/fs-extra": "^8.1.0",
     "args": "^5.0.1",
     "fast-glob": "^3.2.2",
-    "fs-extra": "^8.1.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "rollup": "^2.0.2"
+    "ts-loader": "^6.2.1",
+    "webpack": "^4.42.0"
   }
 }

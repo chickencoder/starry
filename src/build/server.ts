@@ -1,12 +1,9 @@
 import { BuildConfig, SourcePage } from './build'
 import files from '../data/files'
-import { InputOptions, OutputOptions, rollup } from 'rollup'
 import { resolve as resolvePath } from 'path'
-import resolve from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-import typescript from '@rollup/plugin-typescript'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { promises as fs } from 'fs'
+import webpack, { Configuration } from 'webpack'
 
 function templatePage(html: string) {
   return `<!doctype html>
@@ -25,58 +22,56 @@ function templatePage(html: string) {
   `
 }
 
-async function bundle(
-  inputOptions: InputOptions,
-  outputOptions: OutputOptions
-): Promise<void> {
-  const bundle = await rollup(inputOptions)
-  await bundle.generate({})
-  await bundle.write(outputOptions)
-}
-
 export async function generateServerBundles(
   config: BuildConfig,
   pages: SourcePage[]
 ): Promise<void> {
   // TODO refactor this into a type-safe reduce() or Array.flat()
-  let input: { [name: string]: string } = {}
+  let entry: { [name: string]: string } = {}
   for (let page of pages) {
     if (page.name) {
-      input[page.name] = page.path
+      entry[page.name] = page.path
     }
   }
 
-  // Input options specifify each of our pages, plugins
-  // for compiling pages on the server-side (node-resolve, commonjs)
-  // with typescript compiler
-  const inputOptions: InputOptions = {
-    input,
-    plugins: [
-      resolve({
-        extensions: config.exts
-      }),
-      commonjs({
-        include: /node_modules/
-      }),
-      typescript({
-        jsx: 'react',
-        module: 'es6',
-        moduleResolution: 'node',
-        allowSyntheticDefaultImports: true,
-        target: 'es5'
+  const serverConfig: Configuration = {
+    target: 'node',
+    entry,
+    output: {
+      filename: '[name].js',
+      path: config.dirs.tmp,
+      libraryTarget: 'commonjs'
+    },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js']
+    },
+    module: {
+      rules: [
+        {
+          test: /.tsx?$/,
+          exclude: /node_modules/,
+          loader: 'ts-loader',
+          options: {
+            configFile: './tmp/tsconfig.json'
+          }
+        }
+      ]
+    }
+  }
+
+  await webpack(serverConfig, (err, stats) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+
+    console.log(
+      stats.toString({
+        chunks: false, // Makes the build much quieter
+        colors: true // Shows colors in the console
       })
-    ]
-  }
-
-  // Output files are written to temporary directory
-  // because these are only used server-side to render
-  // static markup with react-dom
-  const outputOptions: OutputOptions = {
-    dir: config.dirs.tmp,
-    format: 'cjs'
-  }
-
-  await bundle(inputOptions, outputOptions)
+    )
+  })
 }
 
 export async function renderPages(

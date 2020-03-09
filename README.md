@@ -1,14 +1,20 @@
 # Starry ✨
 
-_Work in Progress_ &mdash; Fun little Static React Sites
+> _Work in Progress_
 
-### Features
+Starry is a fun way of building **JAMStack** projects. Enjoy building static React sites with a powerful data layer, an easy-to-plugin generator &amp; opt-in client side hydration. Serve your sites from anywhere!
 
-- 📁 Simple file based routing
-- 💥 Powerful built-in data layer
-- ☂️ Opt-in hydration (just pure, semantic HTML!)
-- 🔌 Easy to plugin
-- 🍓 JAMStack FTW!
+### What can I make?
+
+Here's some ideas of things you could make...
+
+- 📝 Blog
+- 🎙 Podcast
+- 📗 Book
+- 🌉 Photo Gallery
+- 🏖 Holiday Scrapbook
+- 🛍 Shop
+- 🥽 Wiki
 
 ### Reason
 

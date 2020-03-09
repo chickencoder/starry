@@ -49,6 +49,19 @@ export async function build(config: BuildConfig): Promise<void> {
   await fs.mkdir(config.dirs.tmp, { recursive })
   await fs.mkdir(config.dirs.build, { recursive })
 
+  // Write tsconfig.json to tmp directory for server bundling
+  const tsConfig = {
+    jsx: 'react',
+    module: 'es6',
+    moduleResolution: 'node',
+    allowSyntheticDefaultImports: true,
+    target: 'es5',
+    files: ['**/*']
+  }
+
+  const pathToTsConfig = resolve(config.dirs.tmp, 'tsconfig.json')
+  await fs.writeFile(pathToTsConfig, JSON.stringify(tsConfig))
+
   // Find all page components
   const pathToPages = resolve(config.dirs.project, 'pages')
   const extensions = config.exts.join(',')
