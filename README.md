@@ -6,8 +6,9 @@ _Work in Progress_ &mdash; Fun little Static React Sites
 
 - 📁 Simple file based routing
 - 💥 Powerful built-in data layer
-- ☂️ Optional hydration (just HTML by default)
+- ☂️ Opt-in hydration (just pure, semantic HTML!)
 - 🔌 Easy to plugin
+- 🍓 JAMStack FTW!
 
 ### Reason
 

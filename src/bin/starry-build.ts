@@ -9,7 +9,8 @@ const baseConfig: BuildConfig = {
     tmp: resolve(process.cwd(), '.tmp'),
     build: resolve(process.cwd(), '.starry')
   },
-  exts: ['.js', '.ts', '.tsx', '.md', '.mdx']
+  exts: ['.js', '.ts', '.tsx', '.md', '.mdx'],
+  excludes: ['pages', 'components', 'node_modules', 'package.json']
 }
 
 build(baseConfig).then(() => {

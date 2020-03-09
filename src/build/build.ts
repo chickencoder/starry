@@ -9,7 +9,8 @@ export interface BuildConfig {
     build: string
     project: string
   }
-  exts: Array<string>
+  exts: string[]
+  excludes: string[]
 }
 
 export interface SourcePage {

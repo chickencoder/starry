@@ -1,4 +1,5 @@
 import { BuildConfig, SourcePage } from './build'
+import files from '../data/files'
 import { InputOptions, OutputOptions, rollup } from 'rollup'
 import { resolve as resolvePath } from 'path'
 import resolve from '@rollup/plugin-node-resolve'
@@ -85,11 +86,18 @@ export async function renderPages(
   // Generate our bundles
   await generateServerBundles(config, pages)
 
+  // Assemble the data layer
+  const props = {
+    data: {
+      files: await files(config)
+    }
+  }
+
   // Require bundles and render HTML
   for await (let page of pages) {
     const src = resolvePath(config.dirs.tmp, page.name)
     const Page = await import(src)
-    const html = renderToStaticMarkup(Page.default())
+    const html = renderToStaticMarkup(Page.default(props))
 
     // Write to *.html file
     const outputPath = resolvePath(config.dirs.build, `${page.name}.html`)
